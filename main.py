@@ -5,6 +5,7 @@ import logging
 from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import askopenfile
+from demodulator import Demodulator
 
 
 root = Tk()
@@ -17,17 +18,21 @@ logging.basicConfig(level=logging.DEBUG)
 
 def load_file():
     try:
-        filename = askopenfile()
-        while filename is not None and filename.name.split(".")[1] not in support_formats:
-            filename = askopenfile()
+        file = askopenfile()
+        filepath = file.name
+        while file is not None and filepath.split(".")[1] not in support_formats:
+            file = askopenfile()
+            filepath = file.name
 
-        if filename is not None:
+        if file is not None:
             dir_name = str(round(time.time() * 1000))
             save_directory = f"temp/{dir_name}"
             os.makedirs(save_directory)
-            shutil.copy(filename.name, save_directory)
-            logging.info("Скопирован файл: " + filename.name)
-            return filename.name
+            path = shutil.copy(filepath, save_directory)
+            logging.info("Скопирован файл: " + filepath)
+            d = Demodulator(path)
+            print(d.__read_file())
+            return filepath
         else:
             logging.info("Невозможно скопировать файл, т.к. файл не выбран")
         return None
