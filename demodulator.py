@@ -25,6 +25,7 @@ class Demodulator:
     
     def process(self):
         self.audio_data, self.sample_rate, self.length = self.__read_file()
+        print(self.audio_data, self.sample_rate, self.length)
 
     def __read_file(self):
         sample_rate, data = wavfile.read(self.filepath)

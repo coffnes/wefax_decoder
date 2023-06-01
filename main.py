@@ -31,7 +31,7 @@ def load_file():
             path = shutil.copy(filepath, save_directory)
             logging.info("Скопирован файл: " + filepath)
             d = Demodulator(path)
-            print(d.__read_file())
+            print(d.process())
             return filepath
         else:
             logging.info("Невозможно скопировать файл, т.к. файл не выбран")
